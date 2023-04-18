@@ -1,7 +1,10 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import { Formik, Field } from 'formik';
 import { Form, FormField, ErrorMessage, Button } from './ContactForm.styled';
 import * as Yup from 'yup';
+
+import { addContact } from 'redux/contactsSlice';
 
 const initialValues = {
   name: '',
@@ -33,35 +36,59 @@ const Schema = Yup.object().shape({
     .required(),
 });
 
-export const ContactForm = ({ onSubmit }) => {
-  const handleSubmit = (values, { resetForm }) => {
-    onSubmit(values);
-    resetForm();
+export const ContactForm = () => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts);
+
+  const handleSubmit = e => {
+    const sameName = contacts.find(
+      el => el.name.toLowerCase() === name.toLowerCase()
+    );
+    console.log(sameName);
+    if (sameName) return alert(name + ' is already in contacts.');
+
+    dispatch(addContact({ name, number }));
+
+    setName('');
+    setNumber('');
+  };
+
+  const onChange = e => {
+    switch (e.currentTarget.name) {
+      case 'name':
+        setName(e.currentTarget.value);
+        break;
+
+      case 'number':
+        setNumber(e.currentTarget.value);
+        break;
+
+      default:
+        return;
+    }
   };
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
-      validationSchema={Schema}
+      // validationSchema={Schema}
     >
       <Form>
         <FormField>
           Name
-          <Field type="text" name="name" />
+          <Field type="text" name="name" onChange={onChange} value={name} />
           <ErrorMessage name="name" component="div" />
         </FormField>
         <FormField>
           Phone
-          <Field type="tel" name="number" />
+          <Field type="tel" name="number" onChange={onChange} value={number} />
         </FormField>
         <ErrorMessage name="number" component="div" />
         <Button type="submit">Add contact</Button>
       </Form>
     </Formik>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func,
 };
