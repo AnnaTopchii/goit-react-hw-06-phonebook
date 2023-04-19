@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
+import { nanoid } from 'nanoid';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
 const initialContacts = [
@@ -16,8 +17,15 @@ export const contactsSlice = createSlice({
   },
 
   reducers: {
-    addContact(state, action) {
-      state.items.push(action.payload);
+    addContact: {
+      reducer(state, action) {
+        state.items.push(action.payload);
+      },
+      prepare(contact) {
+        return {
+          payload: { ...contact, id: nanoid() },
+        };
+      },
     },
 
     deleteContact(state, action) {

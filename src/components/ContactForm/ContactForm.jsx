@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Field } from 'formik';
 import { Form, FormField, ErrorMessage, Button } from './ContactForm.styled';
 import * as Yup from 'yup';
-import { nanoid } from 'nanoid';
 
 import { addContact } from 'redux/contactsSlice';
 import { selectContacts } from 'redux/selectors';
@@ -48,7 +47,7 @@ export const ContactForm = () => {
 
     if (sameName) return alert(formData.name + ' is already in contacts.');
 
-    dispatch(addContact({ ...formData, id: nanoid() }));
+    dispatch(addContact({ ...formData }));
     actions.resetForm();
   };
 
