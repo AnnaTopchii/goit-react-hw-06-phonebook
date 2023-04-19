@@ -9,16 +9,7 @@ import { Container, Title, SubTitle } from './App.styled';
 import { selectContacts } from 'redux/selectors';
 
 export const App = () => {
-  // const [contacts, setContacts] = useState(
-  //   () =>
-  //     JSON.parse(window.localStorage.getItem('contactBook')) ?? initialContacts
-  // );
-
   const contacts = useSelector(selectContacts);
-
-  // useEffect(() => {
-  //   window.localStorage.setItem('contactBook', JSON.stringify(contacts));
-  // }, [contacts]);
 
   return (
     <Container>
