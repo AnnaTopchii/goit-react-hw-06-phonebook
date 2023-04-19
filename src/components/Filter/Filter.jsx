@@ -1,9 +1,11 @@
 import { Field, Input } from './Filter.styled';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setFilter } from '../../redux/filterSlice';
+import { selectFilter } from 'redux/selectors';
 
 export const Filter = () => {
   const dispatch = useDispatch();
+  const filterValue = useSelector(selectFilter);
 
   const onChange = e => {
     const value = e.target.value.toLowerCase();
@@ -13,7 +15,7 @@ export const Filter = () => {
   return (
     <Field>
       Find contacts by name
-      <Input type="text" onChange={onChange} />
+      <Input type="text" onChange={onChange} value={filterValue} />
     </Field>
   );
 };

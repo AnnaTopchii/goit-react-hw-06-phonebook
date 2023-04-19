@@ -6,14 +6,15 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 
 import { Container, Title, SubTitle } from './App.styled';
+import { selectContacts } from 'redux/selectors';
 
 export const App = () => {
   // const [contacts, setContacts] = useState(
   //   () =>
-  //     JSON.parse(window.localStorage.getItem('contactBook')) ?? initalContacts
+  //     JSON.parse(window.localStorage.getItem('contactBook')) ?? initialContacts
   // );
 
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(selectContacts);
 
   // useEffect(() => {
   //   window.localStorage.setItem('contactBook', JSON.stringify(contacts));
@@ -21,7 +22,7 @@ export const App = () => {
 
   return (
     <Container>
-      <Title>Phonebook</Title>
+      <Title>Phone book</Title>
       <ContactForm />
 
       <SubTitle>Contacts</SubTitle>
